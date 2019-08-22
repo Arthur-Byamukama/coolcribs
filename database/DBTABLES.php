@@ -53,8 +53,8 @@
 		photo BLOB,
 		religion VARCHAR(15),
 		tribe VARCHAR(15),
-		natinality VARCHAR(15),
-		CONSTRAINT PK_clients PRIMARY KEY (nin)
+		nationality VARCHAR(15),
+		PRIMARY KEY (nin)
 	)";
 
 
@@ -66,7 +66,6 @@
 			}
 
 	//creating a toLe table to contain details of offered homes
-
 	$siteHomes = "CREATE TABLE toLet (
 		id INT(10) NOT NULL,
 		ownerzNin INT(20) NOT NULL,
@@ -91,8 +90,8 @@
 		county VARCHAR(25),
 		district VARCHAR(25),
 		region VARCHAR(25),
-		natinality VARCHAR(15),
-		CONSTRAINT PK_clients PRIMARY KEY (id)
+		PRIMARY KEY (id),
+		CONSTRAINT FK_toLet_clients FOREIGN KEY (ownerzNin) REFERENCES siteClients(nin)
 	)";
 
 
@@ -101,6 +100,32 @@
 	}
 	else {
 	echo "toLet table created<br>";
+			}
+
+	//to hold data while a home is rented
+	$rentedHome = "CREATE TABLE rented (
+		id INT(10) NOT NULL,
+		ownerzNin INT(20) NOT NULL,
+		guestzNin INT(20) NOT NULL,
+		propertyId INT(10),
+		startDate DATE,
+		endDate DATE,
+		paymentMethod VARCHAR(10),
+		paymentStatus VARCHAR(10),
+		spaceType VARCHAR(15),
+		spaceType VARCHAR(15),
+		noOfGuests INT(5),
+		PRIMARY KEY (id),
+		CONSTRAINT FK_rented_owner FOREIGN KEY (ownerzNin) REFERENCES siteClients(nin),
+		CONSTRAINT FK_rented_guest FOREIGN KEY (guestzNin) REFERENCES siteClients(nin),
+		CONSTRAINT FK_rented_toLet FOREIGN KEY (propertyId) REFERENCES toLet(id)
+	)";
+
+	if($conn->query($rentedHome)===FALSE) {
+		echo("rented table not created: " .mysqli_error($conn) ."<br>");
+	}
+	else {
+	echo "rented table created<br>";
 			}
 	
 ?>
