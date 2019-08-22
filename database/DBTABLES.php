@@ -33,9 +33,9 @@
 
 	echo "Database selected<br>";
 
-	//create home owner table
+	//clients table......to hold detais of registered users whether guests or home owners
 
-	$landlord = "CREATE TABLE homeOwner (
+	$siteClients = "CREATE TABLE clients (
 		nin INT(20) NOT NULL,
 		sex VARCHAR(15),
 		name VARCHAR(50),
@@ -54,17 +54,53 @@
 		religion VARCHAR(15),
 		tribe VARCHAR(15),
 		natinality VARCHAR(15),
-		CONSTRAINT PK_homeOwner PRIMARY KEY (nin)
+		CONSTRAINT PK_clients PRIMARY KEY (nin)
 	)";
 
 
-	if($conn->query($landlord)===FALSE) {
-		echo("homeOwner table not created: " .mysqli_error($conn) ."<br>");
+	if($conn->query($siteClients)===FALSE) {
+		echo("clients table not created: " .mysqli_error($conn) ."<br>");
 	}
 	else {
-	echo "homeOwner table created<br>";
+	echo "clients table created<br>";
 			}
 
-	//create indexs
+	//creating a toLe table to contain details of offered homes
+
+	$siteHomes = "CREATE TABLE toLet (
+		id INT(10) NOT NULL,
+		ownerzNin INT(20) NOT NULL,
+		spaceType VARCHAR(15),
+		spaceCapacity INT(5),
+		pets VARCHAR(25),
+		spaceImage1 BLOB,
+		spaceImage2 BLOB,
+		spaceImage3 BLOB,
+		spaceImage4 BLOB,
+		spaceImage5 BLOB,
+		spaceImage6 BLOB,
+		providedServices VARCHAR(60),
+		spaceCost INT(5),
+		Availabilty VARCHAR(5),
+		rating INT(2),
+		capacity INT(2),
+		directions VARCHAR (50),
+		village VARCHAR(15),
+		parish VARCHAR(25),
+		subcounty VARCHAR(25),
+		county VARCHAR(25),
+		district VARCHAR(25),
+		region VARCHAR(25),
+		natinality VARCHAR(15),
+		CONSTRAINT PK_clients PRIMARY KEY (id)
+	)";
+
+
+	if($conn->query($siteHomes)===FALSE) {
+		echo("toLet table not created: " .mysqli_error($conn) ."<br>");
+	}
+	else {
+	echo "toLet table created<br>";
+			}
 	
 ?>
